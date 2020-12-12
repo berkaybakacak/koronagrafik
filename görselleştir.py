@@ -64,7 +64,7 @@ def düzelt(ülkeismi):
 
 def main():
     while True:
-        ülke = input("Verilerini görmek istediğiniz ülkenin ismini yazın(çıkmak 'k'): ")
+        ülke = input("Verilerini görmek istediğiniz ülkenin ismini yazın(çıkmak için 'k'): ")
         if ülke == "k":
             break
         
