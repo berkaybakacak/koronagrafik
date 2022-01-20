@@ -2,7 +2,7 @@
 
 """
 Koronagrafik
-Son güncelleme tarihi: 14 Ocak 2021 Perşembe 18:45
+Son güncelleme tarihi: 21 Ocak 2022 Cuma 01:19
 Yazar: Berkay Bakacak.
 """
 
@@ -22,7 +22,7 @@ import json
     "Özbekistan":["uzbekistan", 22]
 }
 
-secenekler = {0:["white", "black"], 1:["black", "white"]}
+secenekler = {0:["#ececeb", "black"], 1:["black", "#ececeb"]}
 
 def cizdir(ulkeAdi):
     secenek = koronagrafik.pencere.koyuTema.isChecked()
@@ -124,17 +124,17 @@ def ilerigeri(yon):
 
         # Sonraki ve önceki ülkenin isimlerini düğmelere yerleştir
         if not sira > len(koronagrafik.ülkeler) - 3:
-            koronagrafik.pencere.ileriButon.setText(koronagrafik.ülkeler[sira + 3])
-        
-        koronagrafik.pencere.geriButon.setText(koronagrafik.ülkeler[sira + 1])
+            koronagrafik.pencere.ileriButon.setText("-> " + koronagrafik.ülkeler[sira + 3])
+
+        koronagrafik.pencere.geriButon.setText(koronagrafik.ülkeler[sira + 1] + " <-")
     else:
         koronagrafik.pencere.ulkelerListesi.setCurrentIndex(sira - 1)
 
         # Sonraki ve önceki ülkenin isimlerini düğmelere yerleştir
         if not sira < 2:
-            koronagrafik.pencere.geriButon.setText(koronagrafik.ülkeler[sira - 1])
+            koronagrafik.pencere.geriButon.setText(koronagrafik.ülkeler[sira - 1] + " <-")
 
-        koronagrafik.pencere.ileriButon.setText(koronagrafik.ülkeler[sira + 1])
+        koronagrafik.pencere.ileriButon.setText("-> " + koronagrafik.ülkeler[sira + 1])
 
 def ulkeDegisti(ulkeAdi):
     sira = koronagrafik.pencere.ulkelerListesi.currentIndex() + 1
@@ -148,10 +148,10 @@ def ulkeDegisti(ulkeAdi):
         koronagrafik.pencere.ileriButon.setVisible(0)
 
     if not sira > len(koronagrafik.ülkeler) - 1:
-        koronagrafik.pencere.ileriButon.setText(koronagrafik.ülkeler[sira + 1])
+        koronagrafik.pencere.ileriButon.setText("-> " + koronagrafik.ülkeler[sira + 1])
 
     if not sira < 2:
-        koronagrafik.pencere.geriButon.setText(koronagrafik.ülkeler[sira - 1])
+        koronagrafik.pencere.geriButon.setText(koronagrafik.ülkeler[sira - 1] + " <-")
 
     cizdir(ulkeAdi)
 
@@ -164,10 +164,10 @@ def kaydet():
         ciktiAdi = ciktiAdi + "Sütun grafiği"
     else:
         ciktiAdi = ciktiAdi + "Çizgi grafiği"
-    
+
     if koronagrafik.pencere.koyuTema.isChecked():
         ciktiAdi = ciktiAdi + " - Koyu tema"
-    
+
     ciktiAdi = ciktiAdi + ".png"
 
     koronagrafik.pencere.canvas.fig.savefig(ciktiAdi)
@@ -176,6 +176,16 @@ def temadegisti():
     secenek = koronagrafik.pencere.koyuTema.isChecked()
 
     koronagrafik.pencere.setStyleSheet("background-color: " + secenekler[secenek][0] + ";")
+
+
+    koronagrafik.pencere.ileriButon.setStyleSheet(koronagrafik.pencere.butonStiller[1][secenek])
+    koronagrafik.pencere.geriButon.setStyleSheet(koronagrafik.pencere.butonStiller[1][secenek])
+    koronagrafik.pencere.ulkeyiGuncelle.setStyleSheet(koronagrafik.pencere.butonStiller[1][secenek])
+    koronagrafik.pencere.grafigikaydet.setStyleSheet(koronagrafik.pencere.butonStiller[1][secenek])
+    koronagrafik.pencere.tumUlkeleriGuncelle.setStyleSheet(koronagrafik.pencere.butonStiller[2][secenek])
+
+    koronagrafik.pencere.ulkelerListesi.setStyleSheet(koronagrafik.pencere.comboBoxStil[secenek])
+
     koronagrafik.pencere.canvas.fig.set_facecolor(secenekler[secenek][0])
 
     koronagrafik.pencere.canvas.axes[0].set_facecolor(secenekler[secenek][0])
@@ -190,7 +200,7 @@ def temadegisti():
     koronagrafik.pencere.canvas.axes[1].spines["left"].set_color(secenekler[secenek][1])
     koronagrafik.pencere.canvas.axes[1].spines["bottom"].set_color(secenekler[secenek][1])
     koronagrafik.pencere.canvas.axes[1].spines["right"].set_color(secenekler[secenek][1])
-    
+
     koronagrafik.pencere.canvas.axes[0].tick_params(axis="x", colors=secenekler[secenek][1])
     koronagrafik.pencere.canvas.axes[0].tick_params(axis="y", colors=secenekler[secenek][1])
 
@@ -206,8 +216,8 @@ def temadegisti():
     koronagrafik.pencere.koyuTema.setStyleSheet("color: " + secenekler[secenek][1] + ";")
     koronagrafik.pencere.etiket.setStyleSheet("color: " + secenekler[secenek][1] + ";")
     koronagrafik.pencere.bildiriEtiket.setStyleSheet("color: " + secenekler[secenek][1] + ";")
-    koronagrafik.pencere.cizgiGrafik.setStyleSheet("color: " + secenekler[secenek][1] + ";")
-    koronagrafik.pencere.sutunGrafik.setStyleSheet("color: " + secenekler[secenek][1] + ";")
+    koronagrafik.pencere.cizgiGrafik.setStyleSheet("background-color: " + secenekler[secenek][0] + "; color: " + secenekler[secenek][1] + ";")
+    koronagrafik.pencere.sutunGrafik.setStyleSheet("background-color: " + secenekler[secenek][0] + "; color: " + secenekler[secenek][1] + ";")
 
     cizdir(koronagrafik.pencere.ulkelerListesi.currentText())
 
