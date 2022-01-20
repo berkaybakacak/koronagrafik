@@ -1,29 +1,28 @@
 # -*- coding: utf-8 -*-
+
+"""
+Koronagrafik
+Son güncelleme tarihi: 21 Ocak 2022 Cuma 01:25
+Yazar: Berkay Bakacak.
+"""
+
 import sys, locale
 import sqlite3
+import ssl
 import numpy as np
 from koronagrafik.tasarim import *
 from koronagrafik.metotlar import *
 
-"""
-Koronagrafik
-Son güncelleme tarihi: 14 Ocak 2021 Perşembe 17:09
-Yazar: Berkay Bakacak.
-"""
-
 bağlantı = sqlite3.connect("veriler.db")
 imleç = bağlantı.cursor()
-
-try:
-    locale.setlocale(locale.LC_ALL, locale="Turkish_Turkey") # Windows
-except locale.Error: # Linux
-    locale.setlocale(locale.LC_ALL, locale="tr_TR.utf8")
 
 ülkeler = {
     1:"Türkiye", 2:"Amerika", 3:"Kanada", 4:"Çin", 5:"Japonya", 6:"Avusturya", 7:"Belçika", 8:"Bulgaristan",
     9:"Danimarka", 10:"Yunanistan", 11:"Kıbrıs", 12:"Azerbaycan", 13:"İngiltere", 14:"Almanya", 15:"Pakistan",
     16:"Fransa", 17:"Hindistan", 18:"Tayland", 19:"İtalya", 20:"Bangladeş", 21:"Özbekistan"
 }
+
+ssl._create_default_https_context = ssl._create_unverified_context
 
 app = QtWidgets.QApplication(sys.argv)
 
@@ -42,7 +41,7 @@ pencere.ayarlar.clicked.connect(ayarlariAc)
 pencere.koyuTema.stateChanged.connect(temadegisti)
 
 pencere.geriButon.setVisible(0)
-pencere.ileriButon.setText(ülkeler[2])
+pencere.ileriButon.setText("-> " + ülkeler[2])
 
 pencere.ulkeyiGuncelle.clicked.connect(ulkeGuncelle)
 pencere.tumUlkeleriGuncelle.clicked.connect(tumUlkeleriGuncelle)
@@ -67,6 +66,6 @@ if b_otokoyutema == 0:
 
 ayarlarpencere = Ayarlar()
 ayarlarpencere.baslarkenkoyutema.setChecked(b_otokoyutema)
-
+ayarlarpencere.baslarkensutungrafik.setChecked(b_grafiktipi)
 ayarlarpencere.baslarkenkoyutema.stateChanged.connect(baslarkenKoyuTema)
 ayarlarpencere.baslarkensutungrafik.stateChanged.connect(baslarkenSutunGrafik)
